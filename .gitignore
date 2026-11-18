@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+runs/
+# Замеры НЕ игнорируются: это доказательства, а не артефакты сборки.
+# Жюри должно видеть данные, на которых построены выводы (критерии Т4, Т6).
+
+.env
+.env.*
+*.log
+.DS_Store
+.idea/
+.vscode/
+frontend/tsconfig.tsbuildinfo

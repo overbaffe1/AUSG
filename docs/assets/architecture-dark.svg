@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="title desc" xml:lang="ru">
+  <title id="title">Архитектура AUSG: четыре слоя и одна граница</title>
+  <desc id="desc">Слои системы: React UI, FastAPI, ядро потока заданий + федеративная автономия, эталонная модель организаторов.</desc>
+  <style>
+    text { font-family: 'Segoe UI', 'DejaVu Sans', sans-serif; }
+    .mono { font-family: 'DejaVu Sans Mono', ui-monospace, monospace; }
+  </style>
+  <rect x="1" y="1" width="958" height="438" rx="14" fill="#0d1117" stroke="#263446" stroke-width="1.5"/>
+  <text x="36" y="36" class="mono" font-size="12" font-weight="700" letter-spacing="1.4" fill="#38bdf8">АРХИТЕКТУРА // 4 СЛОЯ И ОДНА СТРОГАЯ ГРАНИЦА</text>
+  <line x1="36" y1="50" x2="924" y2="50" stroke="#263446" stroke-width="1"/>
+
+  <!-- Layer 1: Frontend -->
+  <rect x="36" y="68" width="888" height="72" rx="10" fill="#151d28" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="56" y="96" font-size="16" font-weight="700" fill="#f1f5f9">1. Консоль оператора</text>
+  <text x="275" y="96" class="mono" font-size="12" fill="#38bdf8">React 18 · TypeScript · Vite 6 · Recharts · Zustand</text>
+  <text x="56" y="120" font-size="12.5" fill="#94a3b8">7 экранов: Предполётная оценка · Пульт смены · Поток заданий · Группировка 48×288 · Сравнение веток · Аналитика · Выгрузка</text>
+
+  <line x1="480" y1="140" x2="480" y2="158" stroke="#94a3b8" stroke-width="2"/>
+  <text x="494" y="153" class="mono" font-size="11" fill="#94a3b8">HTTP/JSON · единый формат ошибок</text>
+
+  <!-- Layer 2: FastAPI -->
+  <rect x="36" y="160" width="888" height="58" rx="10" fill="#151d28" stroke="#263446" stroke-width="1.5"/>
+  <text x="56" y="186" font-size="15" font-weight="700" fill="#f1f5f9">2. Веб-слой (backend/app/)</text>
+  <text x="300" y="186" class="mono" font-size="12" fill="#818cf8">FastAPI · Pydantic v2 · Uvicorn</text>
+  <text x="56" y="206" font-size="12.5" fill="#94a3b8">Валидация схем, реестр изолированных прогонов, ветвление, ленивое кэширование Explain-панели (8–30 мс)</text>
+
+  <line x1="480" y1="218" x2="480" y2="236" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Layer 3: Core Flow & Autonomy -->
+  <rect x="36" y="238" width="560" height="92" rx="10" fill="#151d28" stroke="#34d399" stroke-width="1.5"/>
+  <text x="56" y="264" font-size="15" font-weight="700" fill="#f1f5f9">3a. Ядро потока заданий (backend/flow/, planners/)</text>
+  <text x="56" y="287" class="mono" font-size="10.8" fill="#34d399">cost → valuation → shadow_prices (λ_G, λ_E, λ_W) → admission → dispatch</text>
+  <text x="56" y="311" font-size="12.5" fill="#94a3b8">Инкрементальный ScenarioIndex · защита шлюза · 0 внешних ML-зависимостей</text>
+
+  <rect x="612" y="238" width="312" height="92" rx="10" fill="#151d28" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="632" y="264" font-size="15" font-weight="700" fill="#f1f5f9">3b. Расширение автономии</text>
+  <text x="632" y="287" class="mono" font-size="11.5" fill="#fbbf24">backend/autonomy/ (federated)</text>
+  <text x="632" y="311" font-size="12.5" fill="#94a3b8">Бандлы с 3 рангами · дельта-кэш · борт</text>
+
+  <line x1="480" y1="330" x2="480" y2="352" stroke="#fb7185" stroke-width="2"/>
+  <text x="494" y="345" class="mono" font-size="11" font-weight="700" fill="#fb7185">строгая граница: только dict действий</text>
+
+  <!-- Layer 4: Reference Model -->
+  <rect x="36" y="354" width="888" height="66" rx="10" fill="#1c2635" stroke="#fb7185" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="56" y="382" font-size="15" font-weight="700" fill="#f1f5f9">4. Эталонная модель кейса (model/resource_env.py, operations.py) — НЕ ИЗМЕНЕНА</text>
+  <text x="56" y="404" font-size="12.5" fill="#94a3b8">Физика батареи и тепла · допуск шагов · учёт выручки · 100% воспроизводимость через replay_episode</text>
+</svg>

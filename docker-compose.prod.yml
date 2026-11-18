@@ -1,0 +1,16 @@
+# Боевой образ: собранный фронтенд раздаётся бэкендом, один контейнер, один порт.
+#   docker compose -f docker-compose.prod.yml up --build
+#   http://localhost:5017
+
+services:
+  app:
+    build:
+      context: .
+      target: runtime
+    ports:
+      - "5017:5017"
+    environment:
+      COSMO_APP_VERSION: "0.1.0"
+    volumes:
+      - ./runs:/app/runs
+    restart: unless-stopped

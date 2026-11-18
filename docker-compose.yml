@@ -1,0 +1,46 @@
+# Режим разработки: код проброшен в контейнеры, пересборка не нужна.
+#
+#   docker compose up            — поднять всё
+#   http://localhost:5017        — интерфейс (Vite, горячая перезагрузка)
+#   http://localhost:5018/docs   — API напрямую
+#
+# Бэкенд перезапускается сам при правке backend/ или model/.
+# Фронтенд обновляется в браузере без перезагрузки страницы.
+#
+# Боевой образ одним контейнером: docker compose -f docker-compose.prod.yml up --build
+
+services:
+  api:
+    build:
+      context: .
+      target: backend-dev
+    ports:
+      - "5018:8000"          # прямой доступ к API и /docs
+    environment:
+      COSMO_APP_VERSION: "0.1.0-dev"
+    volumes:
+      - ./backend:/app/backend
+      - ./model:/app/model
+      - ./data:/app/data
+      - ./examples:/app/examples
+      - ./experiments:/app/experiments
+      - ./runs:/app/runs
+    restart: unless-stopped
+
+  web:
+    image: node:20-alpine
+    working_dir: /app/frontend
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5017"
+    ports:
+      - "5017:5017"          # основной адрес: интерфейс + проксированный /api
+    environment:
+      COSMO_API_TARGET: "http://api:8000"
+    volumes:
+      - ./frontend:/app/frontend
+      - frontend_modules:/app/frontend/node_modules
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  frontend_modules:

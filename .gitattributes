@@ -1,0 +1,10 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Keep GitHub language statistics focused on source code
+data/*.json linguist-vendored
+examples/saved_runs/*.json linguist-vendored
+experiments/results/*.json linguist-vendored
+experiments/results/*.csv linguist-vendored
+docs/hackathon/** linguist-documentation
+docs/presentation.html linguist-documentation

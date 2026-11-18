@@ -1,0 +1,15 @@
+flowchart TB
+    UI["1. Консоль оператора<br/>React 18 · TypeScript · Vite 6 · Recharts · Zustand<br/>(7 экранов: Предполёт, Пульт, Поток, Группировка, Сравнение, Аналитика, Выгрузка)"]
+    API["2. Веб-слой (backend/app/)<br/>FastAPI · Pydantic v2 · Uvicorn<br/>(валидация, реестр прогонов, ветвление, кэш Explain)"]
+
+    subgraph Core["3. Ядро потока заданий и федеративная автономия"]
+        direction LR
+        Flow["3a. Поток заданий (backend/flow/, planners/)<br/>cost → valuation → shadow_prices (λ_G, λ_E, λ_W) → admission → dispatch"]
+        Auto["3b. Автономия (backend/autonomy/)<br/>бандлы 3 рангов · дельта-кэш · бортовой агент"]
+    end
+
+    Model["4. Эталонная модель кейса (model/resource_env.py, operations.py)<br/>НЕ ИЗМЕНЕНА · энергия, тепло, допуск, replay_episode"]
+
+    UI -->|HTTP/JSON| API
+    API --> Core
+    Core -->|только dict действий| Model

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc" xml:lang="ru">
+  <title id="title">КОСМОС / AUSG — Social Preview</title>
+  <desc id="desc">Карточка репозитория для GitHub Social Preview: 1280×640.</desc>
+  <style>
+    text { font-family: 'Segoe UI', 'DejaVu Sans', sans-serif; }
+    .mono { font-family: 'DejaVu Sans Mono', ui-monospace, monospace; }
+  </style>
+  <defs>
+    <clipPath id="right-field">
+      <path d="M810 0h470v640H715z"/>
+    </clipPath>
+    <pattern id="bp-grid" width="38" height="38" patternUnits="userSpaceOnUse">
+      <path d="M0 38V0h38" fill="none" stroke="#1b344d" stroke-width="1"/>
+      <circle cx="0" cy="0" r="1.4" fill="#38bdf8" opacity="0.45"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="640" fill="#0b1118"/>
+
+  <!-- Right Orbital Blueprint Field -->
+  <g clip-path="url(#right-field)">
+    <rect x="705" width="575" height="640" fill="#081420"/>
+    <rect x="705" width="575" height="640" fill="url(#bp-grid)"/>
+    <g stroke="#38bdf8" stroke-opacity="0.26" fill="none">
+      <circle cx="1015" cy="310" r="105" stroke-dasharray="3 6"/>
+      <circle cx="1015" cy="310" r="172"/>
+      <ellipse cx="1015" cy="310" rx="225" ry="96" transform="rotate(-22 1015 310)" stroke-dasharray="6 6"/>
+      <ellipse cx="1015" cy="310" rx="225" ry="96" transform="rotate(26 1015 310)"/>
+    </g>
+    <circle cx="1015" cy="310" r="58" fill="#0e2a45" stroke="#38bdf8" stroke-width="2.2"/>
+    <path d="M972 298c16-12 34-10 48 2 14 10 28 8 40-3" fill="none" stroke="#34d399" stroke-width="2" opacity="0.75"/>
+    <path d="M980 330c18 10 38 8 56-5" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.6"/>
+    <line x1="1015" y1="252" x2="925" y2="164" stroke="#34d399" stroke-width="2" stroke-dasharray="4 4"/>
+    <line x1="1015" y1="368" x2="1115" y2="452" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 4"/>
+    <g>
+      <circle cx="1015" cy="138" r="7" fill="#34d399"/>
+      <circle cx="1101" cy="161" r="5.5" fill="#38bdf8"/>
+      <circle cx="1164" cy="224" r="7.5" fill="#fbbf24"/>
+      <circle cx="1187" cy="310" r="5.5" fill="#38bdf8"/>
+      <circle cx="1164" cy="396" r="6" fill="#34d399"/>
+      <circle cx="1101" cy="459" r="7" fill="#38bdf8"/>
+      <circle cx="1015" cy="482" r="5.5" fill="#818cf8"/>
+      <circle cx="929" cy="459" r="6" fill="#34d399"/>
+      <circle cx="866" cy="396" r="5.5" fill="#fbbf24"/>
+      <circle cx="843" cy="310" r="7.5" fill="#34d399"/>
+      <circle cx="866" cy="224" r="5.5" fill="#38bdf8"/>
+      <circle cx="929" cy="161" r="7" fill="#34d399"/>
+    </g>
+    <text x="790" y="590" class="mono" font-size="15" fill="#34d399" letter-spacing="1.4">48 SATELLITES · 288 STEPS · 8 120 JOBS</text>
+  </g>
+
+  <!-- Left Content -->
+  <rect x="64" y="64" width="16" height="16" rx="2" fill="#34d399"/>
+  <text x="94" y="78" class="mono" font-size="17" font-weight="700" fill="#38bdf8" letter-spacing="1.8">OVERBAFFE1 / AUSG · КОСМОХАКАТОН 2026</text>
+  <line x1="64" y1="108" x2="700" y2="108" stroke="#243447" stroke-width="1.5"/>
+
+  <text x="64" y="210" font-size="76" font-weight="700" fill="#f8fafc" letter-spacing="-1.5">КОСМОС</text>
+  <text x="64" y="274" font-size="29" font-weight="700" fill="#e2e8f0">Автономное управление потоком заданий</text>
+  <text x="64" y="314" font-size="29" font-weight="400" fill="#94a3b8">спутниковой группировки</text>
+
+  <text x="64" y="384" font-size="19" fill="#94a3b8">Теневые цены λ_G, λ_E, λ_W · Допуск · Федеративный борт</text>
+
+  <line x1="64" y1="452" x2="660" y2="452" stroke="#243447" stroke-width="1.5"/>
+  <g transform="translate(64, 488)">
+    <text x="0" y="36" font-size="32" font-weight="700" fill="#34d399">$181 929</text>
+    <text x="0" y="66" font-size="15" fill="#94a3b8">выручка P04</text>
+
+    <text x="195" y="36" font-size="32" font-weight="700" fill="#38bdf8">98.5%</text>
+    <text x="195" y="66" font-size="15" fill="#94a3b8">P3 в срок</text>
+
+    <text x="348" y="36" font-size="32" font-weight="700" fill="#fbbf24">5.5 с</text>
+    <text x="348" y="66" font-size="15" fill="#94a3b8">полный прогон</text>
+
+    <text x="488" y="36" font-size="32" font-weight="700" fill="#818cf8">79 / 79</text>
+    <text x="488" y="66" font-size="15" fill="#94a3b8">тестов pytest</text>
+  </g>
+</svg>

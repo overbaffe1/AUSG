@@ -1,0 +1,58 @@
+[
+  {
+    "file": "normal_shift.json",
+    "label": "Обычная смена",
+    "scenario": "P02_shift",
+    "objective": "commercial",
+    "mode": "centralized",
+    "events_applied": 0,
+    "size_mb": 6.19,
+    "revenue_usd": 27333.88,
+    "critical_on_time": 311,
+    "critical_due": 334,
+    "jobs_due_missed": 54,
+    "reproduced": true
+  },
+  {
+    "file": "energy_deficit.json",
+    "label": "Дефицит энергии",
+    "scenario": "P03_energy",
+    "objective": "priority_service",
+    "mode": "centralized",
+    "events_applied": 0,
+    "size_mb": 6.21,
+    "revenue_usd": 25606.26,
+    "critical_on_time": 302,
+    "critical_due": 334,
+    "jobs_due_missed": 122,
+    "reproduced": true
+  },
+  {
+    "file": "overload.json",
+    "label": "Перегрузка спросом",
+    "scenario": "P04_demand",
+    "objective": "commercial",
+    "mode": "centralized",
+    "events_applied": 0,
+    "size_mb": 7.94,
+    "revenue_usd": 181928.8,
+    "critical_on_time": 1219,
+    "critical_due": 1692,
+    "jobs_due_missed": 1994,
+    "reproduced": true
+  },
+  {
+    "file": "after_events.json",
+    "label": "Продолжение после событий",
+    "scenario": "P02_shift",
+    "objective": "commercial",
+    "mode": "centralized",
+    "events_applied": 4,
+    "size_mb": 6.2,
+    "revenue_usd": 27348.93,
+    "critical_on_time": 308,
+    "critical_due": 338,
+    "jobs_due_missed": 64,
+    "reproduced": true
+  }
+]

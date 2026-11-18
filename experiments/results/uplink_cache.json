@@ -1,0 +1,80 @@
+[
+  {
+    "scenario": "P02_shift",
+    "replan_gap": 4,
+    "uploads": 72,
+    "bytes_without_cache": 6726598,
+    "bytes_with_cache": 1656503,
+    "saved_share": 0.7537,
+    "items_without_cache": 29587,
+    "items_sent": 3832,
+    "items_removed": 2550,
+    "decisions_identical": true,
+    "revenue_usd": 26309.32
+  },
+  {
+    "scenario": "P02_shift",
+    "replan_gap": 12,
+    "uploads": 24,
+    "bytes_without_cache": 2274202,
+    "bytes_with_cache": 921837,
+    "saved_share": 0.5947,
+    "items_without_cache": 10017,
+    "items_sent": 2965,
+    "items_removed": 2499,
+    "decisions_identical": true,
+    "revenue_usd": 25879.51
+  },
+  {
+    "scenario": "P03_energy",
+    "replan_gap": 4,
+    "uploads": 72,
+    "bytes_without_cache": 5679739,
+    "bytes_with_cache": 2298039,
+    "saved_share": 0.5954,
+    "items_without_cache": 24590,
+    "items_sent": 6898,
+    "items_removed": 3514,
+    "decisions_identical": true,
+    "revenue_usd": 24583.38
+  },
+  {
+    "scenario": "P03_energy",
+    "replan_gap": 12,
+    "uploads": 24,
+    "bytes_without_cache": 1948699,
+    "bytes_with_cache": 1155798,
+    "saved_share": 0.4069,
+    "items_without_cache": 8463,
+    "items_sent": 4090,
+    "items_removed": 2717,
+    "decisions_identical": true,
+    "revenue_usd": 24558.37
+  },
+  {
+    "scenario": "P04_demand",
+    "replan_gap": 4,
+    "uploads": 72,
+    "bytes_without_cache": 43949554,
+    "bytes_with_cache": 28886571,
+    "saved_share": 0.3427,
+    "items_without_cache": 205174,
+    "items_sent": 129510,
+    "items_removed": 46011,
+    "decisions_identical": true,
+    "revenue_usd": 154558.61
+  },
+  {
+    "scenario": "P04_demand",
+    "replan_gap": 12,
+    "uploads": 24,
+    "bytes_without_cache": 15196226,
+    "bytes_with_cache": 12219445,
+    "saved_share": 0.1959,
+    "items_without_cache": 70986,
+    "items_sent": 54871,
+    "items_removed": 23952,
+    "decisions_identical": true,
+    "revenue_usd": 151428.27
+  }
+]

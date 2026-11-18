@@ -1,0 +1,17 @@
+name: Предложение по улучшению
+description: Идея по улучшению алгоритма, аналитики или интерфейса.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Суть предложения
+      description: Какую задачу решает изменение и как влияет на метрики/UX.
+    validations:
+      required: true
+  - type: textarea
+    id: metrics
+    attributes:
+      label: Ожидаемый эффект
+      description: Как проверить улучшение (выручка, P3 в срок, время прогона, трафик).
