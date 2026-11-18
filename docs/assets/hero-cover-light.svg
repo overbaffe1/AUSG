@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400" role="img" aria-labelledby="title desc" xml:lang="ru">
+  <title id="title">КОСМОС / AUSG — Автономное управление потоком заданий</title>
+  <desc id="desc">Обложка проекта: 48 спутников, 288 шагов горизонта, 8 120 заданий.</desc>
+  <style>
+    text { font-family: 'Segoe UI', 'DejaVu Sans', sans-serif; }
+    .mono { font-family: 'DejaVu Sans Mono', ui-monospace, monospace; }
+    @media (prefers-reduced-motion: no-preference) {
+      .orbit-spin { transform-origin: 960px 200px; animation: spin 40s linear infinite; }
+      @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    }
+  </style>
+  <defs>
+    <clipPath id="frame"><rect x="2" y="2" width="1196" height="396" rx="18"/></clipPath>
+    <clipPath id="right-field"><path d="M745 0h455v400H685z"/></clipPath>
+    <pattern id="bp-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M0 32V0h32" fill="none" stroke="#18324a" stroke-width="1"/>
+      <circle cx="0" cy="0" r="1.2" fill="#38bdf8" opacity="0.45"/>
+    </pattern>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="400" fill="#f8fafc"/>
+    <g clip-path="url(#right-field)">
+      <rect x="680" width="520" height="400" fill="#0b1622"/>
+      <rect x="680" width="520" height="400" fill="url(#bp-grid)"/>
+      <g stroke="#38bdf8" stroke-opacity="0.24" fill="none">
+        <line x1="740" y1="200" x2="1175" y2="200" stroke-dasharray="4 6"/>
+        <line x1="960" y1="25" x2="960" y2="375" stroke-dasharray="4 6"/>
+        <circle cx="960" cy="200" r="78" stroke-dasharray="2 5"/>
+        <circle cx="960" cy="200" r="126"/>
+        <ellipse cx="960" cy="200" rx="166" ry="72" transform="rotate(-18 960 200)" stroke-dasharray="5 5"/>
+        <ellipse cx="960" cy="200" rx="166" ry="72" transform="rotate(24 960 200)"/>
+      </g>
+      <circle cx="960" cy="200" r="44" fill="#0f2942" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M926 190c12-10 26-8 38 2 10 8 22 6 32-2" fill="none" stroke="#34d399" stroke-width="1.6" opacity="0.75"/>
+      <path d="M932 214c14 8 30 6 44-4" fill="none" stroke="#38bdf8" stroke-width="1.3" opacity="0.6"/>
+      <line x1="960" y1="156" x2="889" y2="95" stroke="#34d399" stroke-width="1.8" stroke-dasharray="3 3"/>
+      <line x1="960" y1="244" x2="1032" y2="303" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="3 3"/>
+      <g class="orbit-spin">
+        <circle cx="960" cy="74" r="5" fill="#34d399"/>
+        <circle cx="1023" cy="91" r="4" fill="#38bdf8"/>
+        <circle cx="1069" cy="137" r="5.5" fill="#fbbf24"/>
+        <circle cx="1086" cy="200" r="4" fill="#38bdf8"/>
+        <circle cx="1069" cy="263" r="4.5" fill="#34d399"/>
+        <circle cx="1023" cy="309" r="5" fill="#38bdf8"/>
+        <circle cx="960" cy="326" r="4" fill="#818cf8"/>
+        <circle cx="897" cy="309" r="4.5" fill="#34d399"/>
+        <circle cx="851" cy="263" r="4" fill="#fbbf24"/>
+        <circle cx="834" cy="200" r="5.5" fill="#34d399"/>
+        <circle cx="851" cy="137" r="4" fill="#38bdf8"/>
+        <circle cx="897" cy="91" r="5" fill="#34d399"/>
+      </g>
+      <text x="768" y="38" class="mono" font-size="11" fill="#34d399">GATEWAY // ≥ 1 SAT LOCKED</text>
+      <text x="1032" y="38" class="mono" font-size="11" fill="#38bdf8">λ_G · λ_E · λ_W</text>
+      <text x="752" y="372" class="mono" font-size="11" fill="#94a3b8">CONSTELLATION: 48 SATS × 288 STEPS</text>
+    </g>
+
+    <rect x="44" y="40" width="12" height="12" rx="2" fill="#059669"/>
+    <text x="66" y="51" class="mono" font-size="12.5" font-weight="700" letter-spacing="1.6" fill="#0284c7">КОСМОХАКАТОН 2026 // СПУТНИКОВАЯ ГРУППИРОВКА</text>
+    <line x1="44" y1="70" x2="640" y2="70" stroke="#cbd5e1" stroke-width="1"/>
+
+    <text x="44" y="136" font-size="54" font-weight="700" letter-spacing="-1.5" fill="#0f172a">КОСМОС · AUSG</text>
+    <text x="44" y="176" font-size="20" font-weight="700" fill="#0f172a">Автономное управление потоком заданий</text>
+    <text x="44" y="204" font-size="19" fill="#475569">48 аппаратов · 288 шагов · до 8 120 коммерческих задач</text>
+
+    <rect x="44" y="230" width="596" height="36" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="58" y="253" class="mono" font-size="12" fill="#0f172a">Поступление → Оценка → Себестоимость → Допуск → Диспетчер → Борт</text>
+
+    <g transform="translate(44, 290)">
+      <rect x="0" y="0" width="138" height="68" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+      <text x="14" y="28" font-size="21" font-weight="700" fill="#059669">$181 929</text>
+      <text x="14" y="50" font-size="11.5" fill="#475569">выручка P04</text>
+
+      <rect x="152" y="0" width="138" height="68" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+      <text x="166" y="28" font-size="21" font-weight="700" fill="#0284c7">98.5%</text>
+      <text x="166" y="50" font-size="11.5" fill="#475569">P3 в срок (1667)</text>
+
+      <rect x="304" y="0" width="138" height="68" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+      <text x="318" y="28" font-size="21" font-weight="700" fill="#4f46e5">5.5 сек</text>
+      <text x="318" y="50" font-size="11.5" fill="#475569">смена (лимит 20)</text>
+
+      <rect x="456" y="0" width="140" height="68" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+      <text x="470" y="28" font-size="21" font-weight="700" fill="#d97706">79 / 79</text>
+      <text x="470" y="50" font-size="11.5" fill="#475569">тестов pytest</text>
+    </g>
+  </g>
+  <rect x="2" y="2" width="1196" height="396" rx="18" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+</svg>

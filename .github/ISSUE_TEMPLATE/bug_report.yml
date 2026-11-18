@@ -1,0 +1,33 @@
+name: Сообщить об ошибке
+description: Нашли баг в планировщике, API или интерфейсе? Опишите шаги воспроизведения.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Что пошло не так
+      description: Краткое описание проблемы и ожидаемого поведения.
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Слой системы
+      options:
+        - Ядро потока заданий (backend/flow, planners, autonomy)
+        - API (backend/app)
+        - Консоль оператора (frontend)
+        - Эксперименты / Docker
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Сценарий и шаги воспроизведения
+      placeholder: |
+        Сценарий: P04_demand
+        Режим: economic / centralized
+        Шаг / команда: ...
+    validations:
+      required: true

@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Автономное управление потоком заданий</title>
+<style>
+  /* Печать: Ctrl+P -> Сохранить как PDF -> Альбомная, без полей, фон включён */
+  @page { size: 1280px 720px; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{
+    --dark:#0d1620; --dark2:#131f2b; --light:#f4f6f8; --card-l:#ffffff;
+    --teal:#2dd4bf; --amber:#e8a33d; --ink:#0f1c28; --muted-d:#8ea3b5; --muted-l:#5c6b7a;
+    --line-d:#233343; --line-l:#dfe5ea;
+  }
+  body{ font-family:"Segoe UI",system-ui,-apple-system,sans-serif; background:#59626b; }
+  .slide{
+    width:1280px; height:720px; padding:64px 72px; position:relative;
+    page-break-after:always; break-after:page; overflow:hidden; display:flex; flex-direction:column;
+  }
+  .slide.d{ background:var(--dark); color:#e9f0f5; }
+  .slide.l{ background:var(--light); color:var(--ink); }
+  .kicker{ font-family:Consolas,"Courier New",monospace; font-size:13px; letter-spacing:.22em;
+           text-transform:uppercase; margin-bottom:14px; }
+  .d .kicker{ color:var(--teal); } .l .kicker{ color:#b06b1f; }
+  h1{ font-size:56px; line-height:1.08; letter-spacing:-.02em; margin-bottom:18px; }
+  h2{ font-size:40px; line-height:1.12; letter-spacing:-.015em; margin-bottom:16px; }
+  .lead{ font-size:19px; line-height:1.5; max-width:1020px; margin-bottom:26px; }
+  .d .lead{ color:#b7c7d4; } .l .lead{ color:var(--muted-l); }
+  .row{ display:flex; gap:16px; }
+  .card{ border-radius:12px; padding:20px 22px; flex:1; }
+  .d .card{ background:var(--dark2); border:1px solid var(--line-d); }
+  .l .card{ background:var(--card-l); border:1px solid var(--line-l); }
+  .card.hi{ background:#0a1219; border:1px solid #2c4356; }
+  .l .card.hi{ background:var(--ink); color:#e9f0f5; border:0; }
+  .card h3{ font-size:17px; margin-bottom:8px; line-height:1.25; }
+  .card p{ font-size:14.5px; line-height:1.45; }
+  .d .card p{ color:#9fb2c2; } .l .card p{ color:var(--muted-l); }
+  .l .card.hi p{ color:#a9bccb; }
+  .big{ font-size:38px; font-weight:700; letter-spacing:-.02em; line-height:1; margin-bottom:6px; }
+  .teal{ color:var(--teal); } .amber{ color:var(--amber); }
+  .mono{ font-family:Consolas,"Courier New",monospace; }
+  table{ width:100%; border-collapse:collapse; font-size:16px; }
+  th{ text-align:right; font-weight:600; font-size:13px; letter-spacing:.06em; text-transform:uppercase;
+      padding:12px 16px; }
+  th:first-child, td:first-child{ text-align:left; }
+  td{ text-align:right; padding:13px 16px; }
+  .d th{ color:#8ea3b5; border-bottom:1px solid var(--line-d); }
+  .d td{ border-bottom:1px solid #1b2836; }
+  .l th{ color:var(--muted-l); border-bottom:1px solid var(--line-l); }
+  .l td{ border-bottom:1px solid #eaeef1; }
+  tr.ours td{ background:rgba(45,212,191,.07); color:var(--teal); font-weight:600; }
+  tr.rival td{ color:var(--amber); }
+  .foot{ margin-top:auto; padding-top:18px; font-size:13.5px; }
+  .d .foot{ color:#6d8194; } .l .foot{ color:#8d9aa6; }
+  .kpi{ display:flex; gap:56px; margin-top:32px; }
+  .kpi div span{ display:block; }
+  .kpi .v{ font-size:34px; font-weight:700; letter-spacing:-.02em; }
+  .kpi .l2{ font-size:14px; color:#8ea3b5; margin-top:4px; }
+  .arch{ font-family:Consolas,"Courier New",monospace; font-size:12.5px; line-height:1.42;
+         white-space:pre; color:#cfe0ec; }
+  ul{ margin-left:18px; } li{ font-size:15px; line-height:1.55; margin-bottom:5px; }
+  .d li{ color:#b0c2d0; } .l li{ color:var(--muted-l); }
+  .note{ border-left:3px solid var(--amber); padding:14px 18px; border-radius:0 10px 10px 0;
+         background:rgba(232,163,61,.09); font-size:15px; line-height:1.5; }
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="slide d">
+  <div class="kicker">КосмоХакатон 2026 · задача B</div>
+  <h1>Автономное управление<br>потоком заданий</h1>
+  <p class="lead">Система оценивает каждое коммерческое задание по деньгам и срочности, считает
+  ресурсные затраты до запуска и сама решает, что брать в работу. Оператор выбирает цель,
+  вводит новые сведения и сравнивает варианты продолжения.</p>
+  <div class="kpi">
+    <div><span class="v teal">98.5%</span><span class="l2">заданий приоритета 3 в срок<br>на перегруженной смене</span></div>
+    <div><span class="v teal">+21.7%</span><span class="l2">выручки против лучшего простого<br>правила при том же уровне обязательств</span></div>
+    <div><span class="v teal">79</span><span class="l2">тестов, расчёт воспроизводится<br>штатным средством библиотеки</span></div>
+  </div>
+  <div class="foot">Все замеры и отвергнутые варианты — <span class="mono">experiments/results/findings.md</span></div>
+</section>
+
+<!-- 2 -->
+<section class="slide l">
+  <div class="kicker">Задача</div>
+  <h2>Взять всё нельзя — значит надо выбирать</h2>
+  <p class="lead">Дефицит структурный и доказуемый <b>до запуска</b>. Предполётная оценка считает
+  ёмкость по расписанию контактов, а не по теоретическому потолку.</p>
+  <div class="row">
+    <div class="card"><div class="big">112%</div><h3>Спрос на ретрансляцию</h3>
+      <p>15 389 шагов работы против 13 728 доступных. Часть заданий не выполнить ничем.</p></div>
+    <div class="card"><div class="big">93%</div><h3>Наземный сегмент</h3>
+      <p>410 из 439 слотов по окнам связи. Потолок 576 недостижим: связи столько нет.</p></div>
+    <div class="card"><div class="big">133</div><h3>Шага с одним шлюзом</h3>
+      <p>Из 288. Отправить единственный аппарат на калибровку — потерять связь.</p></div>
+    <div class="card hi"><div class="big amber">= 0</div><h3>Частичная работа</h3>
+      <p>Не завершил в срок — не заплатили. Ресурсы при этом потрачены.</p></div>
+  </div>
+  <div class="foot">Отсюда главное правило системы: не начинать то, что не успеть.</div>
+</section>
+
+<!-- 3 · АРХИТЕКТУРА -->
+<section class="slide d">
+  <div class="kicker">Архитектура</div>
+  <h2>Четыре слоя и одна граница</h2>
+  <p class="lead">Модель кейса не переписана ни на строку — всё построено поверх неё.</p>
+  <div class="row" style="gap:28px; align-items:flex-start;">
+    <div style="flex:1.15;">
+      <div class="arch">┌────────────────────────────────────────────────────┐
+│ <b>КОНСОЛЬ ОПЕРАТОРА</b>    React 18 · TypeScript strict │
+│ 7 экранов, 1 435 строк  Vite 6 · Recharts · Zustand │
+└──────────────────┬─────────────────────────────────┘
+                   │ HTTP/JSON · 24 ручки · единый формат ошибки
+                   ▼
+┌────────────────────────────────────────────────────┐
+│ <b>ВЕБ-СЛОЙ</b>            FastAPI · pydantic v2 · uvicorn │
+│ тонкий: валидация, изоляция прогонов, сериализация │
+└──────────────────┬─────────────────────────────────┘
+                   ▼
+┌────────────────────────────────────────────────────┐
+│ <b>ЯДРО ПОТОКА ЗАДАНИЙ</b>      4 096 строк Python, без ML │
+│ оценка → затраты → теневые цены → допуск →         │
+│ диспетчеризация → объяснение                       │
+│                                                    │
+│ два режима: centralized · federated                │
+└──────────────────┬─────────────────────────────────┘
+                   │ только словарь действий
+                   ▼
+┌────────────────────────────────────────────────────┐
+│ <b>МОДЕЛЬ ГРУППИРОВКИ</b> — выдана, НЕ ИЗМЕНЕНА          │
+│ энергия · температура · допуск · учёт выполнения   │
+└────────────────────────────────────────────────────┘</div>
+    </div>
+    <div style="flex:.68; display:flex; flex-direction:column; gap:14px;">
+      <div class="card"><h3>Три зависимости на весь backend</h3>
+        <p>FastAPI, uvicorn, pydantic. Ни numpy, ни scipy, ни ML. Венгерский алгоритм написан
+        руками и сверен с эталоном на 300 матрицах.</p></div>
+      <div class="card"><h3>Модель не тянет ничего</h3>
+        <p>Только стандартная библиотека Python 3.10+. Разворачивается где угодно.</p></div>
+      <div class="card hi"><h3>Граница одна</h3>
+        <p>Планировщик отдаёт словарь действий, всё остальное считает <span class="mono">env.step</span>.
+        Поэтому учёт эталонный, а выгрузка сходится.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · РЕЗУЛЬТАТ -->
+<section class="slide d">
+  <div class="kicker">Результат</div>
+  <h2>Перегрузка спросом: P04_demand, 8 120 заданий</h2>
+  <table>
+    <thead><tr><th>Алгоритм</th><th>Выручка</th><th>Приоритет 3 в срок</th><th>Просрочено</th><th>Шагов впустую</th></tr></thead>
+    <tbody>
+      <tr><td>Простое правило: ближайший срок</td><td>$131 431</td><td>1 037 / 1 692</td><td>2 765</td><td>2 752</td></tr>
+      <tr><td>Простое правило: сначала приоритет</td><td>$144 284</td><td>1 653 / 1 692</td><td>2 307</td><td>1 305</td></tr>
+      <tr class="rival"><td>Простое правило: бери самое дорогое</td><td>$178 657</td><td>1 077 / 1 692</td><td>2 731</td><td>643</td></tr>
+      <tr class="ours"><td>Наш планировщик — приоритетный режим</td><td>$175 560</td><td>1 667 / 1 692</td><td>2 027</td><td>264</td></tr>
+      <tr class="ours"><td>Наш планировщик — коммерческий режим</td><td>$181 929</td><td>1 219 / 1 692</td><td>1 994</td><td>68</td></tr>
+    </tbody>
+  </table>
+  <div class="row" style="margin-top:22px;">
+    <div class="card"><h3>Два режима расходятся там, где ресурса не хватает</h3>
+      <p>Приоритетный берёт на <b>448</b> критичных заданий больше, коммерческий — на <b>$6 369</b>
+      больше денег. Это и есть смысл выбора цели.</p></div>
+    <div class="card"><h3>Правило «бери дорогое» обыгрывает нас по деньгам — в приоритетном режиме</h3>
+      <p>И проигрывает <b>590 заданий приоритета 3</b>. В коммерческом режиме, где деньги и есть
+      цель, мы забираем своё: <b>$181 929</b> против <b>$178 657</b>.</p></div>
+    <div class="card hi"><h3>Шагов впустую: 2 752 → 68</h3>
+      <p>Почти весь ресурс, который простое правило сжигает в незавершённые задания,
+      у нас идёт в дело.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide l">
+  <div class="kicker">Как работает</div>
+  <h2>Один шаг смены — семь действий</h2>
+  <div class="row">
+    <div class="card"><div class="kicker" style="margin-bottom:8px">01</div><h3>Окно заданий</h3>
+      <p>Инкрементальный индекс вместо копирования 8 120 заданий каждый шаг.</p></div>
+    <div class="card"><div class="kicker" style="margin-bottom:8px">02</div><h3>Прогноз заряда</h3>
+      <p>Солнце и тепло известны из сценария — считаем арифметикой модели.</p></div>
+    <div class="card"><div class="kicker" style="margin-bottom:8px">03</div><h3>Теневые цены</h3>
+      <p>Почём сейчас слот, ватт-час и шаг аппарата. Сглажены между шагами.</p></div>
+    <div class="card"><div class="kicker" style="margin-bottom:8px">04</div><h3>Защита шлюза</h3>
+      <p>Единственный канал связи не уходит на калибровку. Цена измерена.</p></div>
+    <div class="card hi"><div class="kicker" style="margin-bottom:8px">05</div><h3>Допуск</h3>
+      <p>Брать или не брать. Ядро системы — следующий слайд.</p></div>
+    <div class="card"><div class="kicker" style="margin-bottom:8px">06</div><h3>Назначение</h3>
+      <p>Конфликты за слоты решаем сами, а не полагаемся на отбор библиотекой.</p></div>
+    <div class="card"><div class="kicker" style="margin-bottom:8px">07</div><h3>Самопроверка</h3>
+      <p>Свой план прогоняем через проверки модели до отправки команды.</p></div>
+  </div>
+  <div class="foot"><span class="mono" style="font-size:19px; color:var(--ink); font-weight:700">5.7 с / 20 с</span>
+    &nbsp;— полная смена на 8 120 заданиях. Все команды идут через штатный
+    <span class="mono">env.step</span> со всеми проверками.</div>
+</section>
+
+<!-- 6 -->
+<section class="slide d">
+  <div class="kicker">Ядро системы</div>
+  <h2>Допуск: четыре проверки перед стартом</h2>
+  <div class="row">
+    <div class="card"><div class="mono teal" style="font-size:14px; margin-bottom:8px">tightness &gt; 1</div>
+      <h3>Окон меньше, чем работы</h3>
+      <p>Невыполнимость <b>доказывается арифметикой окон</b>, а не фразой «алгоритм не нашёл».
+      Это проверяемое основание.</p></div>
+    <div class="card"><div class="mono teal" style="font-size:14px; margin-bottom:8px">прогноз SOC</div>
+      <h3>Заряда не хватит</h3>
+      <p>Траектория энергии и тепла на горизонт вперёд. Отказ — только если перезарядиться
+      уже некогда.</p></div>
+    <div class="card"><div class="mono teal" style="font-size:14px; margin-bottom:8px">margin ≤ 0</div>
+      <h3>Ресурс нужнее другому</h3>
+      <p>Не «убыточно»: теневые цены — внутренняя оценка ценности, а не расходы в долларах.</p></div>
+    <div class="card"><div class="mono teal" style="font-size:14px; margin-bottom:8px">speculative</div>
+      <h3>Нет места у борта</h3>
+      <p>Задание лежит сверх расчётной ёмкости аппарата. Земля это знает, борт — нет.</p></div>
+  </div>
+  <div class="note" style="margin-top:22px; color:#e8d5b5;">
+    <b class="amber">Допуск и очередь — разные вопросы.</b>
+    Срочность умножала выручку, но не стоимость ресурсов: у задания с запасом времени выручка
+    уценивалась, цена шага — нет, и допуск отклонял <b>прибыльную</b> работу. Теперь «стоит ли брать»
+    решается по полной стоимости, а «что делать раньше» — по срочности.
+    Коммерческий режим на P04: <b>$153 188 → $181 929</b>.
+  </div>
+  <div class="foot">У каждого простоя ровно одна причина из словаря — причины простоя, отказа и срыва не смешиваются.</div>
+</section>
+
+<!-- 7 -->
+<section class="slide l">
+  <div class="kicker">Экономика решения</div>
+  <h2>Ресурс имеет цену, и она меняется в течение смены</h2>
+  <div class="row">
+    <div class="card"><h3>Карта затрат — до выполнения</h3>
+      <p>Сколько стоит задание на конкретном аппарате: энергия, слоты, шаги, разогрев,
+      доля ресурса калибровки. Считается <b>до</b> отправки команды.</p>
+      <div style="display:flex; gap:28px; margin-top:16px;">
+        <div><div class="big" style="font-size:30px; color:var(--ink)">7.89</div>
+          <p style="font-size:13px">Вт·ч за шаг — <b>предельные</b> затраты сверх ожидания. По ним принимается решение.</p></div>
+        <div><div class="big" style="font-size:30px; color:#9aa7b2">9.47</div>
+          <p style="font-size:13px">Вт·ч за шаг — полная нагрузка. Справочно: служебное потребление идёт и в простое.</p></div>
+      </div></div>
+    <div class="card hi"><h3>Три теневые цены</h3>
+      <p><b>λ-слот</b> — место в наземном сегменте · <b>λ-энергия</b> — ватт-час на борту ·
+      <b>λ-шаг</b> — время аппарата. Задание запускается, только если приносит больше, чем расходует.</p>
+      <p style="margin-top:14px"><b>Приоритет — не множитель, а разряд.</b> Сравнение лексикографическое:
+      сначала обязательство, при равенстве — деньги. Множитель обнулял бы преимущество задания
+      приоритета 3 с нулевой стоимостью.</p></div>
+  </div>
+  <div class="row" style="margin-top:16px;">
+    <div class="card"><h3>Сглаживание — лучшее вложение по отдаче</h3>
+      <p>Цены пересчитывались с нуля каждый шаг и прыгали — аппарат бросал начатое ради соседа
+      с чуть большей плотностью.</p>
+      <div style="display:flex; gap:40px; align-items:baseline; margin-top:12px;">
+        <div><span class="mono" style="font-size:26px; font-weight:700">26.7% → 21.8%</span>
+          <p style="font-size:13px">нестабильность решений</p></div>
+        <div><span style="font-size:22px; font-weight:700; color:#0f8f72">выручка ↑</span>
+          <p style="font-size:13px">и при этом растёт, а не падает</p></div>
+      </div></div>
+  </div>
+  <div class="foot">Все параметры модели читаются из сценария. Ни одного хардкода: жюри может подать свои данные.</div>
+</section>
+
+<!-- 8 · КАК ДОБИЛИСЬ ЭФФЕКТА -->
+<section class="slide d">
+  <div class="kicker">Инженерия</div>
+  <h2>Как мы добились эффекта</h2>
+  <p class="lead">Пять решений, каждое — ответ на конкретное измеренное препятствие.</p>
+  <table>
+    <thead><tr><th style="width:30%">Препятствие</th><th style="text-align:left; width:38%">Что сделали</th><th style="text-align:left">Эффект</th></tr></thead>
+    <tbody>
+      <tr><td>Копирование всех 8 120 заданий на каждом шаге</td>
+          <td style="text-align:left">Инкрементальный индекс: окно активных заданий обновляется на выпуске, дедлайне и завершении</td>
+          <td style="text-align:left" class="teal">Полная смена на P04 — <b>5.5 с</b> при бюджете 20</td></tr>
+      <tr><td>Цены прыгали, аппарат бросал начатое ради соседа</td>
+          <td style="text-align:left">Планировщик живёт между шагами: сглаживание цен, гистерезис вытеснения</td>
+          <td style="text-align:left" class="teal">Нестабильность <b>26.7% → 21.8%</b>, выручка растёт</td></tr>
+      <tr><td>Борта не договорятся на лету, а слотов два на всю группировку</td>
+          <td style="text-align:left">Земля раскладывает конкретные шаги по бортам заранее, внутри полётного задания</td>
+          <td style="text-align:left" class="teal">Конфликтов за слоты — <b>ноль</b>, закреплено тестом</td></tr>
+      <tr><td>Журнал решений 26 МБ, а панель разбора обязана открыться за 300 мс</td>
+          <td style="text-align:left">Два уровня: кандидаты и цены хранятся всегда, глубокая часть — по запросу и в кэш</td>
+          <td style="text-align:left" class="teal">Панель <b>8–30 мс</b> на любом шаге вместо 5.1 с</td></tr>
+      <tr><td>Полное полётное задание в каждом сеансе — лишний трафик</td>
+          <td style="text-align:left">Земля помнит, что лежит на борту, и шлёт только разницу; сравнивает с полным и шлёт меньшее</td>
+          <td style="text-align:left" class="teal">Трафик <b>7.1 → 1.5 МиБ</b> за смену</td></tr>
+    </tbody>
+  </table>
+  <div class="foot">Кэш экономит объём команд, но не энергию: приём в модели не тарифицируется, и мы это не выдаём за экономию.</div>
+</section>
+
+<!-- 9 · ДВА РЕЖИМА -->
+<section class="slide d">
+  <div class="kicker">Два режима исполнения</div>
+  <h2>Кто принимает решение — ЦУП или борт</h2>
+  <div class="row">
+    <div class="card"><div class="mono" style="font-size:14px; color:#8ea3b5; margin-bottom:10px">centralized</div>
+      <h3 style="font-size:21px">Допущения кейса как есть</h3>
+      <p><b>Модель доставляет команды всегда</b>, независимо от связи: ограничения
+      <span class="mono">downlink_available</span> и <span class="mono">relay_available</span> действуют
+      на выполнение оплачиваемых заданий, а командного канала в модели нет вовсе.</p>
+      <ul style="margin-top:12px">
+        <li>планировщик видит все 48 аппаратов и все активные задания</li>
+        <li>конфликты за два слота решаются глобально и на лету</li>
+        <li>роль: <b>база сравнения</b>, не верхняя граница — это эвристика</li>
+      </ul></div>
+    <div class="card hi" style="border-top:2px solid var(--teal)">
+      <div class="mono teal" style="font-size:14px; margin-bottom:10px">federated</div>
+      <h3 style="font-size:21px">Ограничение, которое добавили мы сами</h3>
+      <p>В реальности связь есть только в окнах контакта. В окне на борт уходит полётное
+      задание — очередь с условиями. Вне связи аппарат выбирает действие сам: по бандлу и
+      собственному заряду, температуре, возрасту калибровки.</p>
+      <ul style="margin-top:12px">
+        <li>борт <b>не знает</b>, что делают соседи</li>
+        <li>связь нужна только в окнах контакта</li>
+        <li>реалистичный режим работы группировки</li>
+      </ul></div>
+  </div>
+  <div class="note" style="margin-top:22px; color:#e8d5b5;">
+    Мы не оправдываемся за «нереалистичный» режим. Централизованный — это ровно то, что моделирует
+    кейс; федеративный — ограничение, которое <b>мы нашли и измерили сами</b>.
+    <b class="amber">Разница показателей и есть цена автономии.</b>
+  </div>
+</section>
+
+<!-- 10 · ЦЕНА АВТОНОМИИ -->
+<section class="slide l">
+  <div class="kicker">Цена автономии</div>
+  <h2>Сколько стоит реже выходить на связь</h2>
+  <div class="row" style="align-items:flex-start;">
+    <div style="flex:1.3">
+      <table>
+        <thead><tr><th>Загрузка полётного задания</th><th>Обычная смена</th><th>Перегрузка</th><th>Приоритет 3</th></tr></thead>
+        <tbody>
+          <tr><td>ЦУП на каждом шаге</td><td>$27 196</td><td>$175 560</td><td>1 667</td></tr>
+          <tr><td>раз в шаг — 5 минут</td><td>$26 922</td><td>$159 990</td><td>1 340</td></tr>
+          <tr><td>раз в 4 шага — 20 минут</td><td>$26 309</td><td>$154 559</td><td>1 425</td></tr>
+          <tr><td>раз в 12 шагов — час</td><td>$25 880</td><td>$151 428</td><td>1 445</td></tr>
+          <tr class="ours"><td>раз в 48 шагов — 4 часа</td><td>$25 840</td><td>$145 443</td><td>1 431</td></tr>
+        </tbody>
+      </table>
+      <div class="foot" style="margin-top:14px">Обычная смена — P02_shift, перегрузка — P04_demand, приоритетное обслуживание.</div>
+    </div>
+    <div style="flex:.72; display:flex; flex-direction:column; gap:14px;">
+      <div class="card hi">
+        <div style="display:flex; gap:26px; align-items:baseline;">
+          <div><div class="big teal" style="font-size:40px">5%</div><p style="font-size:13px">обычная смена</p></div>
+          <div><div class="big amber" style="font-size:40px">17%</div><p style="font-size:13px">перегрузка</p></div>
+        </div>
+        <p style="margin-top:12px">Столько стоит сеанс <b>раз в четыре часа</b> вместо постоянной связи —
+        одно и то же сокращение, два разных сценария.</p></div>
+      <div class="card"><h3>Инженерный ответ</h3>
+        <p>При достатке ресурса автономия почти бесплатна. Платить за частые сеансы имеет смысл
+        только в перегрузке — там разрыв втрое больше.</p></div>
+      <div class="card"><h3>Было 87%</h3>
+        <p>До того, как в полётное задание начали попадать задания, выходящие до конца горизонта,
+        и запасные исполнители.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · ЭНЕРГИЯ -->
+<section class="slide d">
+  <div class="kicker">Экономия энергии</div>
+  <h2>Признак «нет места» — то, что борт знать не может</h2>
+  <div class="row">
+    <div class="card"><div class="big amber">10.4%</div><h3>энергии уходило впустую</h3>
+      <p>6 745 Вт·ч на перегруженной смене борта сжигали на задания, которые так и не
+      завершились. Централизованный режим почти чист — 0.6%.</p></div>
+    <div class="card"><h3>Сначала измерили, потом чинили</h3>
+      <p>Разбор каждого брошенного задания: <b>100%</b> — «борт не вернулся, свои окна были».
+      То есть работа окупалась. Буквальный признак «не окупится» эту потерю не закрыл бы.</p></div>
+    <div class="card hi"><h3>Настоящая причина</h3>
+      <p>Если ёмкости не нашлось ни у одного исполнителя, задание всё равно уходило лучшему —
+      <b>сверх его ёмкости</b>. Ложилось в хвост очереди, борт доходил до него случайно,
+      начинал и бросал.</p></div>
+  </div>
+  <div class="row" style="margin-top:18px;">
+    <div class="card" style="flex:1.1"><h3>Как это работает</h3>
+      <p>Земля знает ёмкость каждого борта и сколько работы лежит у соседей — борт не знает ни того,
+      ни другого. Элемент сверх ёмкости помечается в бандле, и борт его <b>не начинает, но начатое
+      добивает</b>: бросить — значит гарантированно потерять вложенные шаги. Приоритет 3 в приоритетном
+      режиме не помечается никогда.</p></div>
+    <div style="flex:1.1">
+      <table>
+        <thead><tr><th>Сеанс</th><th>Выручка</th><th>Приоритет 3</th><th>Энергия</th></tr></thead>
+        <tbody>
+          <tr><td>раз в час, без признака</td><td>$141 210</td><td>1 280</td><td>64 924 Вт·ч</td></tr>
+          <tr class="ours"><td>раз в час, с признаком</td><td>$151 428</td><td>1 445</td><td>62 545 Вт·ч</td></tr>
+          <tr><td>раз в 4 часа, без признака</td><td>$137 935</td><td>1 224</td><td>64 198 Вт·ч</td></tr>
+          <tr class="ours"><td>раз в 4 часа, с признаком</td><td>$145 443</td><td>1 431</td><td>61 144 Вт·ч</td></tr>
+        </tbody>
+      </table></div>
+  </div>
+  <div class="foot">Единственная доработка, которая подняла выручку, приоритет 3 и одновременно снизила расход энергии.</div>
+</section>
+
+<!-- 12 · ЧЕСТНЫЙ РЕЗУЛЬТАТ -->
+<section class="slide l">
+  <div class="kicker">Честный результат</div>
+  <h2>Где простое правило обыгрывает наш алгоритм</h2>
+  <p class="lead">Постановка прямо говорит: сложный алгоритм не обязан превосходить простой на
+  каждом примере. На перегрузке в приоритетном режиме правило «бери самое дорогое» даёт больше денег.</p>
+  <div class="row" style="align-items:flex-start;">
+    <div style="flex:1.15">
+      <table>
+        <thead><tr><th>Алгоритм</th><th>Выручка</th><th>Приоритет 3</th><th>Шагов впустую</th></tr></thead>
+        <tbody>
+          <tr class="rival"><td>Простое: бери самое дорогое</td><td>$178 657</td><td>1 077 / 1 692</td><td>643</td></tr>
+          <tr class="ours"><td>Наш планировщик</td><td>$175 560</td><td>1 667 / 1 692</td><td>264</td></tr>
+        </tbody>
+      </table>
+      <div class="row" style="margin-top:18px;">
+        <div class="card"><h3>Обычная смена</h3>
+          <p>Простое правило даёт $27 179 против наших $27 196. Разница — <b>$17</b> и одно задание.
+          Без дефицита сложный алгоритм честно не нужен.</p></div>
+        <div class="card"><h3>Дефицит энергии</h3>
+          <p>Выручка на 1% ниже при <b>+25 заданиях</b> приоритета 3 в срок. Размен сделан
+          сознательно и записан.</p></div>
+      </div>
+    </div>
+    <div style="flex:.85; display:flex; flex-direction:column; gap:14px;">
+      <div class="card"><h3>Почему так</h3>
+        <p>Когда спроса на 12% больше, чем ёмкости, а деньги распределены неравномерно, «бери дорогое»
+        близко к оптимуму по выручке. Машинерия теневых цен тратится на аккуратность, которая
+        в перегрузке окупается не деньгами.</p></div>
+      <div class="card hi"><h3>Что мы покупаем за 1.73% выручки</h3>
+        <p><b>+590 заданий приоритета 3</b> в срок, <b>−704 просроченных</b> и
+        <b>в 2.44 раза</b> меньше работы, слитой впустую. В коммерческом режиме, где деньги и есть
+        цель, мы забираем своё: <b>$181 929</b>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · КОРРЕКТНОСТЬ -->
+<section class="slide d">
+  <div class="kicker">Корректность</div>
+  <h2>Расчёт воспроизводится штатным средством библиотеки</h2>
+  <div class="row">
+    <div class="card"><div class="big teal">79</div><h3>тестов</h3>
+      <p>48 на правила модели и алгоритмы, 31 на все ручки HTTP.</p></div>
+    <div class="card"><div class="big teal">4</div><h3>сохранённых расчёта</h3>
+      <p>Смена, дефицит энергии, перегрузка, продолжение после событий. Каждый сходится при повторе.</p></div>
+    <div class="card"><div class="big teal">0</div><h3>отказов библиотеки</h3>
+      <p>Ни одного конфликта за слоты и ни одного дубля: планировщик согласует назначения сам.</p></div>
+    <div class="card"><div class="big teal">80</div><h3>прогонов одной командой</h3>
+      <p>Четыре сценария, обе цели, четыре алгоритма, оба режима, с событиями и без.</p></div>
+  </div>
+  <div class="row" style="margin-top:18px;">
+    <div class="card"><h3 class="teal">Разбор любого решения</h3>
+      <p>По каждому шагу и аппарату: что было известно, какие кандидаты рассматривались, какое
+      ограничение повлияло, что получилось по энергии и температуре. Панель открывается за 8–30 мс.</p></div>
+    <div class="card"><h3 class="teal">События не ломают состояние</h3>
+      <p>Сообщение принимается только на текущем шаге. Повторное или некорректное отклоняется
+      <b>целиком</b>. Заряд, температура, калибровка и прогресс не сбрасываются.</p></div>
+    <div class="card"><h3 class="teal">Ветвление «а что если»</h3>
+      <p>Из одного состояния — два независимых продолжения с разными целями и сравнение с вердиктом.
+      Работа в одной ветви не двигает другую.</p></div>
+  </div>
+  <div class="foot">Выданная библиотека не правилась ни строкой: все команды идут через её проверки, учёт остаётся эталонным.</div>
+</section>
+
+<!-- 14 · ГРАНИЦЫ -->
+<section class="slide l">
+  <div class="kicker">Границы</div>
+  <h2>Где кончается модель и начинается наше расширение</h2>
+  <div class="row" style="align-items:flex-start;">
+    <div style="flex:1">
+      <h3 style="font-size:15px; margin-bottom:12px; color:var(--muted-l)">Модель кейса не описывает</h3>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="card"><p><b>Командный канал.</b> Команды принимаются для всех аппаратов независимо
+          от связи. Ограничение «загружать только в окне контакта» ввели мы.</p></div>
+        <div class="card"><p><b>Требование «один аппарат на связи».</b> Взято из реплики кейсодержателя,
+          в расчётной модели не определено. Реализовано как политика, цена измерена: не более 0.27%.</p></div>
+        <div class="card"><p><b>Межспутниковая маршрутизация.</b> Ретрансляция — это тип оплачиваемого
+          задания, а не канал управления. Частая ошибка, мы её не делаем.</p></div>
+      </div>
+    </div>
+    <div style="flex:1">
+      <h3 style="font-size:15px; margin-bottom:12px; color:var(--muted-l)">Что осталось незакрытым</h3>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="card"><p><b>Немонотонность на дефиците энергии.</b> Сеанс раз в шаг даёт меньше,
+          чем раз в четыре. Три гипотезы проверены и исключены.</p></div>
+        <div class="card"><p><b>Время счёта при частой загрузке.</b> Федеративный прогон на перегрузке —
+          13 с при бюджете 20, а при сеансе каждый шаг выходит за бюджет.</p></div>
+        <div class="card"><p><b>Отвергнутые варианты сохранены с числами:</b> венгерское назначение
+          (выигрыша нет), порог запаса 0.9 (−$3 166), три способа переупорядочивания на борту
+          (до −$12 000). Это границы применимости, а не самобичевание.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="card hi" style="margin-top:20px;">
+    <p style="font-size:16px">Мы называем расширения своими именами и не выдаём их за часть модели.
+    Там, где ограничение придумано нами, оно <b>выключается флагом, а его цена измерена</b> — чтобы
+    не ухудшать обязательные показатели ради собственной выдумки.</p></div>
+</section>
+
+<!-- 15 · ИТОГ -->
+<section class="slide d">
+  <div class="kicker">Итог</div>
+  <h1 style="font-size:46px">Система решает, что брать в работу —<br>и может объяснить каждое решение</h1>
+  <div class="row" style="margin-top:8px;">
+    <div class="card"><div class="kicker" style="margin-bottom:8px">01</div><h3>Дефицит виден до запуска</h3>
+      <p>Ёмкость по окнам связи, невыполнимые задания и достижимый потолок денег — ещё до первого шага.</p></div>
+    <div class="card"><div class="kicker" style="margin-bottom:8px">02</div><h3>Решение экономическое</h3>
+      <p>Ресурс имеет цену, задание — ценность. Не начинаем то, что не успеть или чему нет места.</p></div>
+    <div class="card"><div class="kicker" style="margin-bottom:8px">03</div><h3>Автономия измерена</h3>
+      <p>Известно, сколько стоит реже выходить на связь — и когда за частые сеансы платить не надо.</p></div>
+    <div class="card"><div class="kicker" style="margin-bottom:8px">04</div><h3>Каждое число проверяемо</h3>
+      <p>Одна команда воспроизводит всю матрицу. Отвергнутые варианты записаны вместе с причиной.</p></div>
+  </div>
+  <div class="kpi" style="margin-top:34px;">
+    <div><span class="v teal mono">$181 929</span><span class="l2">на перегрузке против $131 431 у простого правила</span></div>
+    <div><span class="v teal mono">5.7 с</span><span class="l2">полная смена на 8 120 заданиях при бюджете 20 с</span></div>
+    <div><span class="v teal mono">findings.md</span><span class="l2">замеры до и после, границы применимости, что не закрыто</span></div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+scenario,planner,mode,replan_gap,rule,objective,events,events_applied,seconds,revenue_usd,jobs_completed,jobs_due_missed,critical_due,critical_on_time,work_steps_in_missed_jobs,blocked_commands,minimum_soc_pct
+P02_shift,baseline,centralized,-,edf,priority_service,нет,0,0.18,26970.71,1132,76,334,298,45,0,46.810877
+P02_shift,baseline,centralized,-,priority,priority_service,нет,0,0.18,27178.94,1150,58,334,314,43,0,46.810877
+P02_shift,baseline,centralized,-,value,priority_service,нет,0,0.17,26789.11,1120,88,334,293,44,0,46.810877
+P02_shift,economic,centralized,-,-,priority_service,нет,0,0.92,27195.6,1150,58,334,315,0,0,46.810877
+P02_shift,baseline,centralized,-,edf,commercial,нет,0,0.18,26970.71,1132,76,334,298,45,0,46.810877
+P02_shift,baseline,centralized,-,priority,commercial,нет,0,0.17,27178.94,1150,58,334,314,43,0,46.810877
+P02_shift,baseline,centralized,-,value,commercial,нет,0,0.18,26789.11,1120,88,334,293,44,0,46.810877
+P02_shift,economic,centralized,-,-,commercial,нет,0,0.9,27333.88,1154,54,334,311,0,0,46.810877
+P03_energy,baseline,centralized,-,edf,priority_service,нет,0,0.18,25849.49,1074,134,334,271,55,0,20.375439
+P03_energy,baseline,centralized,-,priority,priority_service,нет,0,0.19,25794.51,1082,126,334,278,57,0,19.344211
+P03_energy,baseline,centralized,-,value,priority_service,нет,0,0.19,25779.51,1067,141,334,271,51,0,19.61193
+P03_energy,economic,centralized,-,-,priority_service,нет,0,0.92,25606.26,1086,122,334,302,3,0,20.047018
+P03_energy,baseline,centralized,-,edf,commercial,нет,0,0.21,25849.49,1074,134,334,271,55,0,20.375439
+P03_energy,baseline,centralized,-,priority,commercial,нет,0,0.2,25794.51,1082,126,334,278,57,0,19.344211
+P03_energy,baseline,centralized,-,value,commercial,нет,0,0.18,25779.51,1067,141,334,271,51,0,19.61193
+P03_energy,economic,centralized,-,-,commercial,нет,0,0.94,25561.29,1081,127,334,284,0,0,20.047018

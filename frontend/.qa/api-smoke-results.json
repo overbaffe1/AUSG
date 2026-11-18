@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-22T04:32:05.397Z",
+  "origin": "http://127.0.0.1:5018",
+  "results": [
+    {
+      "name": "P04 preflight",
+      "detail": {
+        "downlink": {
+          "demand_steps": 410,
+          "capacity_steps": 439,
+          "contact_capacity": 439,
+          "theoretical_ceiling": 576,
+          "oversubscription": 0.9339,
+          "oversubscription_theoretical": 0.7118
+        },
+        "relay": {
+          "demand_steps": 15389,
+          "capacity_steps": 13728,
+          "contact_capacity": 13728,
+          "theoretical_ceiling": 13824,
+          "oversubscription": 1.121,
+          "oversubscription_theoretical": 1.1132
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "derive preserves original scenario",
+      "detail": {
+        "id": "P04_demand-var-f2fe5c",
+        "original": "P04_demand"
+      },
+      "passed": true
+    },
+    {
+      "name": "create P04",
+      "detail": {
+        "run_id": "cb0e95444777",
+        "step": 0
+      },
+      "passed": true
+    },
+    {
+      "name": "rejected event keeps state",
+      "detail": {
+        "step": 0
+      },
+      "passed": true
+    },
+    {
+      "name": "duplicate rejection keeps accepted state",
+      "detail": {
+        "event": "UI-QA-duplicate"
+      },
+      "passed": true
+    },
+    {
+      "name": "objective changes at boundary",
+      "detail": {
+        "objective": "commercial",
+        "history": [
+          {
+            "step": 0,
+            "from": "priority_service",
+            "to": "commercial"
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "calculation continues after errors",
+      "detail": {
+        "step": 1,
+        "rows": 48
+      },
+      "passed": true
+    },
+    {
+      "name": "P3 absent denominator remains null",
+      "detail": {
+        "critical_jobs_due": 0,
+        "critical_jobs_completed_on_time": 0,
+        "share": null
+      },
+      "passed": true
+    },
+    {
+      "name": "compact JSON replay",
+      "detail": "Расчёт воспроизведён, показатели совпали",
+      "passed": true
+    },
+    {
+      "name": "invalid scenario rejected",
+      "detail": {},
+      "passed": true
+    }
+  ]
+}
