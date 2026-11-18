@@ -9,11 +9,13 @@
 
 <br><br>
 
-[![Презентация](https://img.shields.io/badge/Презентация-HTML_Слайды-0284C7?style=for-the-badge)](docs/presentation.html)
+[![Презентация PDF](https://img.shields.io/badge/Презентация-PDF_Слайды-0284C7?style=for-the-badge)](2baaebff-3b8c-4ca4-8a77-82a5ea05110f.pdf)
+[![HTML Слайды](https://img.shields.io/badge/Демо-HTML_Слайды-0EA5E9?style=for-the-badge)](docs/presentation.html)
 [![Архитектура](https://img.shields.io/badge/Архитектура-4_слоя-059669?style=for-the-badge)](#архитектура)
 [![Бенчмарки](https://img.shields.io/badge/Бенчмарки-80_прогонов-6366F1?style=for-the-badge)](#результаты-и-замеры)
 [![Issues](https://img.shields.io/badge/Issues-Обратная_связь-D97706?style=for-the-badge&logo=github&logoColor=white)](https://github.com/overbaffe1/AUSG/issues)
 
+![КосмоХакатон 2026](https://img.shields.io/badge/КосмоХакатон_2026-13_из_21_·_86.25%2F100-F59E0B?style=flat-square)
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-20232A?style=flat-square&logo=react&logoColor=61DAFB)
@@ -32,7 +34,7 @@
 
 ## О проекте
 
-**КОСМОС (AUSG)** — веб-сервис и экономический планировщик для автономного управления потоком коммерческих заданий спутниковой группировки (кейс **КосмоХакатон 2026**, «Автономное управление спутниковой группировкой»).
+**КОСМОС (AUSG)** — веб-сервис и экономический планировщик для автономного управления потоком коммерческих заданий спутниковой группировки (кейс **КосмоХакатон 2026**, «Автономное управление спутниковой группировкой» — **13 место из 21 команды, 86.25 / 100 баллов**).
 
 Сервис оценивает каждое задание **по деньгам и срочности**, вычисляет его **ресурсную себестоимость до запуска** (энергия, тепло, слоты наземного сегмента, окна контакта) и сам решает, какие задания брать в работу и в каком порядке. Оператор наблюдает за сменой и вмешивается только сообщениями.
 
@@ -289,6 +291,7 @@ cd frontend && npm ci && npm run dev       # UI на :5173 (или build -> dist
 
 | Документ | Содержание |
 |---|---|
+| [`2baaebff-3b8c-4ca4-8a77-82a5ea05110f.pdf`](2baaebff-3b8c-4ca4-8a77-82a5ea05110f.pdf) | Финальная презентация защиты проекта (PDF) |
 | [`docs/presentation.html`](docs/presentation.html) | Интерактивная HTML-презентация защиты проекта |
 | [`experiments/results/findings.md`](experiments/results/findings.md) | Подробный инженерный отчёт: замеры до/после, гипотезы и отрицательные результаты |
 | [`docs/slide_architecture.md`](docs/slide_architecture.md) | Архитектурные тезисы и 5 измеренных оптимизаций |
